@@ -13,18 +13,30 @@ function createChessBoard() {
         newTile.classList.add("tile");
         black = true;
       }
+      newTile.addEventListener("mouseenter", tileHovered);
       newTile.id = j.toString() + "," + i.toString();
+      if (i == 0 && j == 0) {
+        let path = document.createElement("div");
+        path.classList.add("path");
+        newTile.append(path);
+      }
       chessboard.append(newTile);
     }
   }
 }
 
+function tileHovered(e) {
+  console.log(e.target.id);
+}
+
+function tileClicked(e) {
+  console.log(e.target.id);
+}
+
 createChessBoard();
 
 /*
-get a list of all moves
-check if any move in the list is equal to target move
-if not, tick up the move count and recurse
+#########################KNIGHT STUFF###################
 */
 
 const Vec2 = (x = 0, y = 0) => {
