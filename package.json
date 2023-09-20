@@ -2,9 +2,10 @@
   "name": "js_algorithms",
   "version": "1.0.0",
   "description": "",
-  "main": "script.js",
+  "main": "linked_list.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "btree": "node binary_search_tree.js"
   },
   "author": "",
   "license": "ISC",
