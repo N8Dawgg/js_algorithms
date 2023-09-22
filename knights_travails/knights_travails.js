@@ -1,4 +1,5 @@
 const chessboard = document.querySelector("#chessboard");
+const knight = document.querySelector("#knight_div");
 
 function createChessBoard() {
   let black = false;
@@ -13,25 +14,17 @@ function createChessBoard() {
         newTile.classList.add("tile");
         black = true;
       }
-      newTile.addEventListener("mouseenter", tileHovered);
+      // newTile.addEventListener("mouseenter", tileHovered);
+      newTile.addEventListener("click", tileClicked);
       newTile.id = j.toString() + "," + i.toString();
-      if (i == 0 && j == 0) {
-        let path = document.createElement("div");
-        path.classList.add("path");
-        newTile.append(path);
-      }
       chessboard.append(newTile);
     }
   }
 }
 
-function tileHovered(e) {
-  console.log(e.target.id);
-}
-
-function tileClicked(e) {
-  console.log(e.target.id);
-}
+// function tileHovered(e) {
+//   console.log(e.target.id);
+// }
 
 createChessBoard();
 
@@ -110,5 +103,37 @@ function moveCheck(moveList, targetPosition) {
   });
 }
 
-console.log(findFastestMove(Vec2(0, 0), Vec2(7, 7)));
-console.log(findFastestMove(Vec2(0, 0), Vec2(6, 7)));
+//###########################################################
+
+function stringToVec2(str) {
+  let values = str.split(",");
+  return Vec2(Number(values[0]), Number(values[1]));
+}
+
+let knightPosition = Vec2(0, 0);
+const TILE_SIZE = 75;
+
+let curPath;
+
+function tileClicked(e) {
+  curPath = findFastestMove(knightPosition, stringToVec2(e.target.id));
+  console.log(curPath);
+  curPath.shift();
+  console.log(curPath);
+  moveToNextPointInPath();
+}
+
+function moveToNextPointInPath() {
+  if (curPath.length === 0) {
+    return;
+  }
+  let nextPosition = curPath.shift();
+  knight.style.transform =
+    "translate(" +
+    nextPosition.x * TILE_SIZE.toString() +
+    "px, " +
+    nextPosition.y * TILE_SIZE.toString() +
+    "px)";
+  knightPosition = nextPosition;
+  setTimeout(moveToNextPointInPath, 500);
+}
